@@ -1,0 +1,19 @@
+name: Ping HF backend
+on:
+  schedule:
+    - cron: '*/10 * * * *'   # every 10 minutes
+  workflow_dispatch:          # allows manual run
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: |
+          pip install gradio-client
+          python ping_backend.py
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
